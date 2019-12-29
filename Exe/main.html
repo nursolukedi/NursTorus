@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assignment 3</title>
+
+     <script type="text/javascript" src="../gl-matrix.js"></script>
+    <script type="text/javascript" src="../util.js"></script>
+    <script type="text/javascript" src="../program.js"></script>
+    <script type="text/javascript" src="../buffer.js"></script>
+    <script type="text/javascript" src="../camera.js"></script>
+    <script type="text/javascript" src="../scene.js"></script>
+    <script type="text/javascript" src="../explorer.js"></script>
+    <script type="text/javascript" src="../shapes.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <!-- vertex shader source code -->
+    <script id="vert_shader" type="x-shader/x-vertex">
+        uniform mat4 nodeTransform;
+        uniform mat4 modelViewMatrix;
+        uniform mat4 projectionMatrix;
+        attribute vec3 vertexPosition;
+        attribute vec3 vertexColor;
+        varying vec4 fragColor;
+        void main() {
+            gl_Position = projectionMatrix * modelViewMatrix * nodeTransform * vec4(vertexPosition,1.0);
+            fragColor = vec4(vertexColor,1.0);
+        }
+    </script>
+
+    <!-- fragment shader source code -->
+    <script id="frag_shader" type="x-shader/x-fragment">
+        precision highp float;
+        varying vec4 fragColor;
+        void main() {
+            gl_FragColor = fragColor;
+        }
+    </script>
+
+</head>
+
+<body style="bgcolor:white; font-family:helvetica;">
+
+<!-- the canvas in which to draw using WebGL -->
+<canvas id="webgl_canvas" width="500" height="500"></canvas>
+<p>
+
+    <!-- an HTML form to define the camera/projection parameters -->
+<form name="cameraParameters" action="" method="post">
+    <table border="0">
+        <tr>
+            <td>
+            </td><td>
+            Choose Shader
+        </td>
+        </tr>
+        <tr>
+            <td>
+                <input name="shader_type" type="radio" value="Default"
+                       onclick="updateCamera(theScene)" >
+            </td><td>
+            Default Version of Object
+        </td>
+        </tr>
+        <tr>
+            <td>
+                <input name="shader_type" type="radio" value="Wireframe"
+                       onclick="updateCamera(theScene)" >
+            </td><td>
+            Wireframe Shading
+        </td>
+        </tr>
+        <tr>
+            <td>
+                <input name="shader_type" type="radio" value="Phong"
+                       onclick="updateCamera(theScene)" >
+            </td><td>
+            Phong Shading - Not Working
+        </td>
+        </tr>
+        <tr>
+            <td>
+                <input name="shader_type" type="radio" value="Gouraud"
+                       onclick="updateCamera(theScene)" >
+            </td><td>
+            Gouraud Shading - Not Working
+        </td>
+        </tr>
+        <tr>
+            <td>
+                Change Rendering Technique
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input name="texture" type="radio" value="texture" checked
+                       onclick="updateCamera(theScene)" >
+            </td><td>
+            Parametric Texture Mapping - Not Working.
+        </td>
+        </tr>
+
+        <tr>
+           <td>
+            Change Position
+        </td>
+        </tr>
+        <tr>
+            <td>
+                <input name="z_value" type="radio" value="zvalue"  checked                     onclick="updateCamera(theScene)" >
+            </td>
+            <td>
+                Z value <input name="fovy" type="text" size="3" maxlength="3" value="60"
+                                            onchange="updateCamera(theScene)"> <br>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+            </td><td>
+            Choose Shape
+        </td>
+        </tr>
+        <tr>
+                        <td>
+                            <input name="shape" type="radio" value="torus" checked
+                                   onclick="updateCamera(theScene)">
+                        </td><td>
+                        Torus
+                    </td>
+                    </tr>
+                    <tr>
+                        <td>M:</td>
+                        <td><input name="m" type="text" size="10" maxlength="10" value="30"
+                                   onchange="updateCamera(theScene)"></td>
+                        <td>X:</td>
+                        <td><input name="x" type="text" size="10" maxlength="10" value="30"
+                                   onchange="updateCamera(theScene)"></td>
+                    </tr>
+                    <tr>
+                        <td>Radius 1:</td>
+                        <td><input name="r1" type="text" size="10" maxlength="10" value="1.0"
+                                   onchange="updateCamera(theScene)"></td>
+                        <td>Radius 2:</td>
+                        <td><input name="r2" type="text" size="10" maxlength="10" value="0.5"
+                                   onchange="updateCamera(theScene)"></td>
+                    </tr>
+        <tr>
+            <td>
+                <input name="shape" type="radio" value="hyper"
+                       onclick="updateCamera(theScene)">
+            </td><td>
+            Hyperboloid
+        </td>
+
+        </tr>
+                       </table>
+            </td>
+        </tr>
+    </table>
+</form>
+
+</body>
+
+</html>
